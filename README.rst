@@ -25,6 +25,7 @@ In order to use this it is necessary to:
 - Have a functional Pootle install with the API enabled,
 - Have a user with enough permissions to create stuff using the API,
 - Have a site defined,
+- Configure Pootle settings to not use any markup,
 - Run this from inside the same virtualenv where Pootle is being run.
 - Run using the directory monitor script (``trommons_checker.py``),
 

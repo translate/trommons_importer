@@ -18,16 +18,17 @@
 
 """In order to use this script it is necessary to:
 
+* Have Slumber installed: `pip install slumber`
+* Have inotifyx installed: `pip install inotifyx`
 * Alter this script to set the appropriate values in the constants,
-* Run it using the directory monitor script,
 * Have a functional Pootle install with the API enabled,
 * Have a user with enough permissions to create stuff using the API,
 * Have a site defined,
-* Run it inside the same virtualenv where Pootle is being run.
-* Have Slumber installed: `pip install slumber`
-* Have inotifyx installed: `pip install inotifyx`
+* Configure Pootle settings to not use any markup,
+* Run it inside the same virtualenv where Pootle is being run,
+* Run it using the directory monitor script (trommons_checker.py).
 
-Further tweaks to Pootle server:
+It is also recommended to perform some further tweaks on the Pootle server:
 
 * Change global permissions for 'nobody' and 'default' so they don't have any
   permission to alter any project or translation project. That way every user
@@ -280,14 +281,12 @@ def create_new_language(api, code, fullname):
 
 def create_new_project(api, provided, source_lang_api_uri):
     """Create a new language in Pootle using the Pootle API."""
-
-    #TODO need to check why the description is not displayed properly in Pootle.
-    # Maybe because this is a MarkupField and maybe it is not correctly mapped
-    # when creating the API automatically. Maybe look at
-    # http://django-tastypie.readthedocs.org/en/latest/fields.html
-    description = ('%s<br/><br/><a href="%s">Task in Trommons<a/>.' %
-                   (provided['description'].replace("\n\n", "<br/>"),
-                    provided['backlink']))
+    # Assemble the description for the project.
+    #
+    # In order to get this working it is necessary to not set a specific markup
+    # in Pootle settings.
+    description = ('%s\n\nTask in Trommons: %s' % (provided['description'],
+                                                   provided['backlink']))
 
     project_data = {
         'code': provided['project_code'],
