@@ -202,6 +202,7 @@ def validate_provided_data(provided):
         "backlink": unicode,
         "translation_filename": unicode,
         "task_id": int,
+        "mime": unicode,
     }
 
     if not set(required.keys()).issubset(set(provided.keys())):
@@ -292,6 +293,7 @@ def create_new_project(api, provided, source_lang_api_uri):
         'code': provided['project_code'],
         'fullname': provided['title'],
         'description': description,
+        'localfiletype': provided['mime'],
         'source_language': source_lang_api_uri,
         'translation_projects': [],
     }
